@@ -1,19 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import { MsalProvider } from '@azure/msal-react';
+import { Configuration,  PublicClientApplication } from '@azure/msal-browser';
+
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+
+const msalConfiguration: Configuration = {
+  auth: {
+    clientId: "539bd00a-325a-4726-83eb-57e326d7b6d6",
+    authority: 'https://login.microsoftonline.com/organizations/',
+    redirectUri: "http://localhost:3000",
+  }
+};
+
+const pca = new PublicClientApplication(msalConfiguration);
+pca.initialize();
+const AppProvider = () => (
+  <MsalProvider instance={pca}>
+    <App />
+  </MsalProvider>
+)
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  document.getElementById("root") as HTMLElement
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+root.render(<AppProvider />);
