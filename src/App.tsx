@@ -29,7 +29,7 @@ const setupApolloClient = (token : string) => {
 
   return new ApolloClient({
     cache: new InMemoryCache(),
-    link: authLink.concat(httpLink),
+    link: authLink.concat(httpLink)
   });
 }
 
@@ -44,7 +44,7 @@ const acquireAccessToken = async (msalInstance : IPublicClientApplication) => {
       */   
   }
   const request = {
-      scopes: ["profile"],
+      scopes: ["api://539bd00a-325a-4726-83eb-57e326d7b6d6/access_as_user"],
       account: activeAccount || accounts[0]
   };
 
